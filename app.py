@@ -35,7 +35,7 @@ def clean(text):
 def log_unmatched_question(user_input):
     sheet_url = "https://script.google.com/macros/s/AKfycbyDCDB4bwyofaQ4F5p2dX0IvzQIHwoDWEOzovgW_LJFTUyf9T7zZz0F8JOlkMGD-KiO/exec"  # 🔁 Replace this
     try:
-        response = requests.post(sheet_url, data={"message": user_input})
+        response = requests.post(sheet_url, json={"message": user_input})
         print("Google Sheet log response:", response.text)
     except Exception as e:
         print("Logging failed:", e)
