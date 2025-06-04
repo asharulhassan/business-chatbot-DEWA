@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import difflib, re, json, os
+import requests
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -31,14 +33,17 @@ def clean(text):
 
 # --- Log unmatched questions ---
 def log_unmatched_question(user_input):
-    with open("unmatched_questions.txt", "a", encoding="utf-8") as f:
-        f.write(user_input + "\n")
+    sheet_url = "https://script.google.com/macros/s/AKfycbyDCDB4bwyofaQ4F5p2dX0IvzQIHwoDWEOzovgW_LJFTUyf9T7zZz0F8JOlkMGD-KiO/exec"  # 🔁 Replace this
+    try:
+        requests.post(sheet_url, json={"message": user_input})
+    except Exception as e:
+        print("Logging to Google Sheets failed:", e)
 
 # --- Get reply using fuzzy match ---
 def get_bot_reply(user_input):
     user_input_clean = clean(user_input)
     questions = [clean(q) for q in faq_data.keys()]
-    match = difflib.get_close_matches(user_input_clean, questions, n=1, cutoff=0.6)
+    match = difflib.get_close_matches(user_input_clean, questions, n=1, cutoff=0.5)
 
     if match:
         matched_question = list(faq_data.keys())[questions.index(match[0])]
