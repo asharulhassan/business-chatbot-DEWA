@@ -35,15 +35,16 @@ def clean(text):
 def log_unmatched_question(user_input):
     sheet_url = "https://script.google.com/macros/s/AKfycbyDCDB4bwyofaQ4F5p2dX0IvzQIHwoDWEOzovgW_LJFTUyf9T7zZz0F8JOlkMGD-KiO/exec"  # 🔁 Replace this
     try:
-        requests.post(sheet_url, json={"message": user_input})
+        response = requests.post(sheet_url, data={"message": user_input})
+        print("Google Sheet log response:", response.text)
     except Exception as e:
-        print("Logging to Google Sheets failed:", e)
+        print("Logging failed:", e)
 
 # --- Get reply using fuzzy match ---
 def get_bot_reply(user_input):
     user_input_clean = clean(user_input)
     questions = [clean(q) for q in faq_data.keys()]
-    match = difflib.get_close_matches(user_input_clean, questions, n=1, cutoff=0.5)
+    match = difflib.get_close_matches(user_input_clean, questions, n=1, cutoff=0.65)
 
     if match:
         matched_question = list(faq_data.keys())[questions.index(match[0])]

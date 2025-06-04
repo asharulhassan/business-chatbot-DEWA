@@ -93,18 +93,19 @@
 
       #chat-header .status {
         font-size: 12px;
+        /* New green circle with white border */
         display: flex;
         align-items: center;
         gap: 6px;
-        margin-top: 6px;
+        margin-top: 6px; /* Added padding above */
       }
 
       #chat-header .status .green-circle {
         width: 12px;
         height: 12px;
-        background-color: #28a745;
+        background-color: #28a745; /* Green */
         border-radius: 50%;
-        border: 1px solid white;
+        border: 2px solid white;
         display: inline-block;
       }
 
@@ -130,45 +131,39 @@
       }
 
       .msg {
-        max-width: 100%; /* Changed from 80% to 100% as it's now inside .user-msg-wrap's max-width */
+        max-width: 80%;
         padding: 10px 14px;
         border-radius: 18px;
         line-height: 1.4;
         font-size: 14px;
-        /* Removed display: inline-block; - it will be a flex item now */
+        display: inline-block;
         word-wrap: break-word;
       }
 
-      /* USER message bubble specific styling */
+      /* USER message aligned left, timestamp right */
       .user {
+        align-self: flex-start; /* changed from flex-end */
         background-color: #e3e3ff;
         color: #000;
-        text-align: right; /* Keep for text inside the bubble */
-        /* Removed position: relative; and padding-right: 50px; from here */
+        text-align: left; /* left aligned */
+        position: relative;
+        padding-right: 50px; /* add space for timestamp */
+      }
+
+      .user .timestamp {
+        position: absolute;
+        right: 10px;
+        bottom: 4px;
+        font-size: 10px;
+        color: #888;
       }
 
       /* Wrap user message and timestamp so timestamp is positioned */
       .user-msg-wrap {
-        position: relative; /* Keep for potential future absolute positioning needs */
+        position: relative;
         max-width: 80%;
-        align-self: flex-end; /* This aligns the whole wrapper to the right in the chatbox */
+        align-self: flex-start;
         margin-bottom: 10px;
-
-        /* NEW: Make this a flex container to manage its children */
-        display: flex;
-        flex-direction: column; /* Stack message and timestamp vertically */
-        align-items: flex-end; /* Align the message bubble and timestamp to the right within the wrap */
-      }
-
-      /* User timestamp */
-      .user-msg-wrap .timestamp {
-        /* Targeting timestamp within the wrap */
-        font-size: 10px;
-        color: #888;
-        margin-top: 4px; /* Vertical spacing between message and timestamp */
-        text-align: right; /* Ensure text inside timestamp is right-aligned */
-        padding-right: 10px; /* Optional: Adjust horizontal position under the bubble */
-        /* Removed position: absolute; right: 10px; bottom: 4px; */
       }
 
       /* BOT message */
@@ -184,7 +179,7 @@
         font-size: 12px;
         font-weight: bold;
         color: #8f4eea;
-        padding-left: 55px; /* flush left */
+        padding-left: 0; /* flush left */
       }
 
       .bot-msg-content {
@@ -223,7 +218,7 @@
         color: #888;
         margin-top: 4px;
         text-align: left;
-        padding-left: 15px; /* indent under the message bubble, aligned left */
+        padding-left: 40px; /* indent under the message bubble, aligned left */
       }
 
       #input-area {
